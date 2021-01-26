@@ -33,6 +33,14 @@ function check_table_box(t){
     }else{
         checkbox-- ;
     } 
+    console.log($(".table_cb").length + " " + checkbox) 
+    if(checkbox != $(".table_cb").length){
+        $('#checkMain').prop('checked',false);
+    }
+    if(checkbox == $(".table_cb").length){
+        $('#checkMain').prop('checked',true);
+    }
+
 
     if(checkbox == 0){
         $("#row_property").hide();
@@ -46,12 +54,38 @@ function delet_all_row(){
         if($(this).prop('checked')){
             let id= this.id;
             $(`#tr${id}`).fadeOut("slow", function(){ $(this).remove()});
+            checkbox --;
         }
-    })
+    });
+    
+    if(checkbox == 0){
+        $("#row_property").hide();
+
+    }else $("#row_property").show(); 
+    $('#Total_selected').text(`Tottal ${checkbox} row selected`);
 }
 
 function delet_row(t) {
-    $(`#tr${t.id}`).fadeOut("slow", function() {$(this).remove();});
+    $(`#tr${t.id}`).fadeOut("slow", function() {
+        $(this).remove();
+        
+        if($(`.table_cb_${t.id}`).prop("checked")){
+            checkbox--;
+        }
+        if(checkbox == 0){
+            $("#row_property").hide();
+    
+        }else $("#row_property").show();
+        
+        if(checkbox != $(".table_cb").length){
+            $('#checkMain').prop('checked',false);
+        }
+        if(checkbox == $(".table_cb").length){
+            $('#checkMain').prop('checked',true);
+        }
+    });
+    
+    $('#Total_selected').text(`Tottal ${checkbox} row selected`);
 }
   
 function apply_changes(){
@@ -93,7 +127,7 @@ $('#addRow').click(function(){
         if(first_name!="" && last_name!="" && bg_color!=""){
             $('#table_data').append(`<tr id=tr${row}>
                 <td>
-                    <input type="checkbox" id=${row} class="table_cb" onchange="check_table_box(this)"/>
+                    <input type="checkbox" id=${row} class="table_cb table_cb_${row}" onchange="check_table_box(this)"/>
                 </td>
                 <td>
                     <input id=first_name${row} type="text" style="background:${bg_color};font-size:${text_type}" 
