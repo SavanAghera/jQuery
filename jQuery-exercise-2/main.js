@@ -53,39 +53,57 @@ function delet_all_row(){
     $('.table_cb').each(function(){
         if($(this).prop('checked')){
             let id= this.id;
-            $(`#tr${id}`).fadeOut("slow", function(){ $(this).remove()});
-            checkbox --;
+            $(`#tr${id}`).fadeOut("slow", function(){ 
+                $(this).remove()
+                checkbox --;
+
+
+
+                if(checkbox != $(".table_cb").length){
+                    $('#checkMain').prop('checked',false);
+                }
+                if(checkbox == $(".table_cb").length){
+                    $('#checkMain').prop('checked',true);
+                }
+            
+                if(checkbox == 0){
+                    $("#row_property").hide();
+            
+                }else $("#row_property").show(); 
+                $('#Total_selected').text(`Tottal ${checkbox} row selected`);
+            });
+          
         }
     });
     
-    if(checkbox == 0){
-        $("#row_property").hide();
 
-    }else $("#row_property").show(); 
-    $('#Total_selected').text(`Tottal ${checkbox} row selected`);
 }
 
 function delet_row(t) {
     $(`#tr${t.id}`).fadeOut("slow", function() {
-        $(this).remove();
         
+        console.log($(`.table_cb`).prop('checked'))
         if($(`.table_cb_${t.id}`).prop("checked")){
             checkbox--;
         }
+        $(this).remove();
+
         if(checkbox == 0){
             $("#row_property").hide();
     
         }else $("#row_property").show();
-        
+        console.log(checkbox + "" + $(".table_cb").length )
         if(checkbox != $(".table_cb").length){
             $('#checkMain').prop('checked',false);
         }
         if(checkbox == $(".table_cb").length){
             $('#checkMain').prop('checked',true);
         }
+
+        $('#Total_selected').text(`Tottal ${checkbox} row selected`);
     });
     
-    $('#Total_selected').text(`Tottal ${checkbox} row selected`);
+   
 }
   
 function apply_changes(){
@@ -127,7 +145,7 @@ $('#addRow').click(function(){
         if(first_name!="" && last_name!="" && bg_color!=""){
             $('#table_data').append(`<tr id=tr${row}>
                 <td>
-                    <input type="checkbox" id=${row} class="table_cb table_cb_${row}" onchange="check_table_box(this)"/>
+                    <input type="checkbox" id=${row} class="table_cb  table_cb_${row}" onchange="check_table_box(this)"/>
                 </td>
                 <td>
                     <input id=first_name${row} type="text" style="background:${bg_color};font-size:${text_type}" 
@@ -146,6 +164,15 @@ $('#addRow').click(function(){
                 </tr>`);
                 $(`#tr${row}`).hide().fadeIn();
                 row ++;
+
+
+
+                if(checkbox != $(".table_cb").length){
+                    $('#checkMain').prop('checked',false);
+                }
+                if(checkbox == $(".table_cb").length){
+                    $('#checkMain').prop('checked',true);
+                }
         }else alert('cant add empty data')
         
     });
