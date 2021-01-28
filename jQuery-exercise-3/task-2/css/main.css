@@ -1,0 +1,11 @@
+body {
+    background-color:white;
+  }
+  #responsive_tab div:hover{
+    background-color:gray;
+  }
+
+  .lgTabToggle-tab-active {
+    background:rgb(100, 97, 97) !important;
+  
+}
